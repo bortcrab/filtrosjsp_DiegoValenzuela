@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,7 +18,6 @@ import jakarta.servlet.http.HttpSession;
  */
 public class Login extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -50,6 +50,7 @@ public class Login extends HttpServlet {
         if ("admin".equals(username) && "12345".equals(password)) {
             HttpSession sesion = request.getSession();
             sesion.setAttribute("usuario", username);
+            sesion.setAttribute("listaPokemones", new ArrayList<>());
             response.sendRedirect(request.getContextPath() + "/home.jsp");
         } else {
             response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
@@ -64,6 +65,6 @@ public class Login extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

@@ -4,23 +4,23 @@
  */
 package servlets;
 
-import jakarta.servlet.ServletContext;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import modelo.Pokemon;
+import beans.Pokemon;
+import jakarta.servlet.http.HttpSession;
+import java.util.Comparator;
 
 /**
  *
  * @author Diego Valenzuela Parra
  */
-public class registrarPokemon extends HttpServlet {
+public class RegistrarPokemon extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -35,15 +35,6 @@ public class registrarPokemon extends HttpServlet {
 
     }
 
-    @Override
-    public void init() throws ServletException {
-        // Inicializar la lista de Pokémon si no existe
-        ServletContext context = getServletContext();
-        if (context.getAttribute("listaPokemon") == null) {
-            context.setAttribute("listaPokemon", new ArrayList<Pokemon>());
-        }
-    }
-    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -55,24 +46,32 @@ public class registrarPokemon extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Obtener los datos del formulario
-        String nombre = request.getParameter("nombre");
-        int numero = Integer.parseInt(request.getParameter("numero"));
-        String tipo = request.getParameter("tipo");
-        String evolucion = request.getParameter("evolucion");
-        int nivelPoder = Integer.parseInt(request.getParameter("nivelPoder"));
-        String descripcion = request.getParameter("descripcion");
+        String destino;
 
-        // Crear un nuevo objeto Pokemon
-        Pokemon pokemon = new Pokemon(nombre, numero, tipo, evolucion, nivelPoder, descripcion);
+        if (!request.getParameter("nombre").isBlank() && !request.getParameter("numero").isBlank() && !request.getParameter("tipo").isBlank() && !request.getParameter("evolucion").isBlank() && !request.getParameter("nivelPoder").isBlank() && !request.getParameter("descripcion").isBlank()) {
+            Pokemon pokemon = new Pokemon();
+            pokemon.setNombre(request.getParameter("nombre"));
+            pokemon.setNumero(Integer.parseInt(request.getParameter("numero")));
+            pokemon.setTipo(request.getParameter("tipo"));
+            pokemon.setEvolucion(request.getParameter("evolucion"));
+            pokemon.setNivelPoder(request.getParameter("nivelPoder"));
+            pokemon.setDescripcion(request.getParameter("descripcion"));
 
-        // Agregar el Pokémon a la lista en el contexto de la aplicación
-        ServletContext context = getServletContext();
-        List<Pokemon> listaPokemon = (List<Pokemon>) context.getAttribute("listaPokemon");
-        listaPokemon.add(pokemon);
+            HttpSession sesion = request.getSession();
+            List<Pokemon> listaPokemones = (List<Pokemon>) sesion.getAttribute("listaPokemones");
+            listaPokemones.add(pokemon);
 
-        // Redireccionar de vuelta a la página para mostrar la lista actualizada
-        response.sendRedirect("home.jsp");
+            Comparator<Pokemon> comparador = (Pokemon p1, Pokemon p2) -> Integer.compare(p1.getNumero(), p2.getNumero());
+
+            listaPokemones.sort(comparador); // Para acomodarlos según su numerito de pokedex
+
+            destino = "home.jsp";
+        } else {
+            destino = "registrar-pokemon.jsp";
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(destino);
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -83,6 +82,6 @@ public class registrarPokemon extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

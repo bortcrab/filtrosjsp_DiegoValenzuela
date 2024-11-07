@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>registrarPokemon</servlet-name>
-        <servlet-class>servlets.registrarPokemon</servlet-class>
+        <servlet-class>servlets.RegistrarPokemon</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>

@@ -1,28 +1,25 @@
-package modelo;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Beans/Bean.java to edit this template
+ */
+package beans;
+
+import java.io.Serializable;
 
 /**
  *
- * @author Diego Valenzuela Parra
+ * @author Familia
  */
-public class Pokemon {
+public class Pokemon implements Serializable {
 
     private String nombre;
     private int numero;
     private String tipo;
     private String evolucion;
-    private int nivelPoder;
+    private String nivelPoder;
     private String descripcion;
 
     public Pokemon() {
-    }
-
-    public Pokemon(String nombre, int numero, String tipo, String evolucion, int nivelPoder, String descripcion) {
-        this.nombre = nombre;
-        this.numero = numero;
-        this.tipo = tipo;
-        this.evolucion = evolucion;
-        this.nivelPoder = nivelPoder;
-        this.descripcion = descripcion;
     }
 
     public String getNombre() {
@@ -57,11 +54,11 @@ public class Pokemon {
         this.evolucion = evolucion;
     }
 
-    public int getNivelPoder() {
+    public String getNivelPoder() {
         return nivelPoder;
     }
 
-    public void setNivelPoder(int nivelPoder) {
+    public void setNivelPoder(String nivelPoder) {
         this.nivelPoder = nivelPoder;
     }
 
@@ -72,6 +69,5 @@ public class Pokemon {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    
+
 }

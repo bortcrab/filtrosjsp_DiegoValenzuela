@@ -1,6 +1,6 @@
 filtros\FiltroAutenticacion.class
-servlets\registrarPokemon.class
 org\itson\practicaautenticacion_valenzueladiego\resources\JakartaEE10Resource.class
 servlets\Login.class
+servlets\RegistrarPokemon.class
 org\itson\practicaautenticacion_valenzueladiego\JakartaRestConfiguration.class
-modelo\Pokemon.class
+beans\Pokemon.class
